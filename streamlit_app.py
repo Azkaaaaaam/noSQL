@@ -1,13 +1,11 @@
 import streamlit as st
-
-
 def add_new_movie(movies):
     title = st.sidebar.text_input("Title")
     released_year = st.sidebar.number_input("Released year", min_value=1800, max_value=2100)
     kind = st.sidebar.text_input("Kind")
     nationality = st.sidebar.text_input("Nationality")
     if st.sidebar.button("Add movie"):
-        new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality, "average_ranking": 0, "comments": []}
+        new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality, "average_ranking": 0, "comments": [], "num_reviews": 0}
         movies.append(new_movie)
         st.sidebar.success(f"{title} has been added to the database.")
     return movies
@@ -18,8 +16,8 @@ def display_movie_info(selected_movie_info):
     st.write(f"Released year: {selected_movie_info['released_year']}")
     st.write(f"Kind: {selected_movie_info['kind']}")
     st.write(f"Nationality: {selected_movie_info['nationality']}")
-    st.write(f"Average ranking: {selected_movie_info['average_ranking']}")
-    
+    st.write(f"Average ranking: {selected_movie_info['average_ranking']:.1f}")
+
 
 def add_comment(selected_movie_info):
     nickname = st.text_input("Enter your nickname", value="Anonymous")
@@ -39,6 +37,7 @@ def display_comments(selected_movie_info):
         elif isinstance(comment, dict) and "nickname" in comment and "comment" in comment:
             st.write(f"{comment['nickname']}: {comment['comment']}")
 
+
 def rate_movie(selected_movie_info):
     if st.button("Submit Review"):
         rating = st.number_input("Enter your rating (0-5)", min_value=0, max_value=5)
@@ -47,12 +46,13 @@ def rate_movie(selected_movie_info):
         new_ranking = (current_ranking * num_reviews + rating) / (num_reviews + 1)
         selected_movie_info["average_ranking"] = new_ranking
         selected_movie_info["num_reviews"] = num_reviews + 1
+        st.success(f"You rated {selected_movie_info['title']} {rating} stars.")
+
 
 def delete_movie(movies, selected_movie_info):
     movies.remove(selected_movie_info)
     st.success(f"{selected_movie_info['title']} has been deleted from the database.")
     return movies
-
 
 def main():
     st.title("Movie Database")
@@ -74,24 +74,22 @@ def main():
 
     # Find the selected movie in the list of movies
     selected_movie_info = None
-    for movie in movies:
-        if movie["title"] == selected_movie_title:
-            selected_movie_info = movie
-            break
 
-    # Display the details of the selected movie
+    movie_titles = [movie["title"] for movie in movies]
+    selected_movie_title = st.selectbox("Select a movie", movie_titles)
+    selected_movie_info = next((movie for movie in movies if movie["title"] == selected_movie_title), None)
+
     if selected_movie_info:
         display_movie_info(selected_movie_info)
         rate_movie(selected_movie_info)
         add_comment(selected_movie_info)
-        st.success(f"Comment added to {selected_movie_info['title']}.")
-        st.success(f"You rated {selected_movie_info['title']} {rating} stars.")
         display_comments(selected_movie_info)
         if st.button("Delete movie"):
             movies = delete_movie(movies, selected_movie_info)
 
-    # Add a new movie to the database
-    movies = add_new_movie(movies)
+    if st.sidebar.button("Add new movie"):
+        movies = add_new_movie(movies)
+
 main()
 
     
