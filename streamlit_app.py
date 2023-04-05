@@ -37,23 +37,35 @@ if selected_movie_info is not None:
     st.write(f"Nationality: {selected_movie_info['nationality']}")
     st.write(f"Average ranking: {selected_movie_info['average_ranking']}")
     
-    # Display the list of comments associated with the selected movie
-    st.write("Comments:")
-    for i, comment in enumerate(selected_movie_info["comments"]):
-        # Check if the current index is valid for the nicknames list
-        if i < len(selected_movie_info["nicknames"]):
-            st.write(f"{selected_movie_info['nicknames'][i]}: {comment}")
+    # Add a comments section
+    comment_expander = st.beta_expander("Comments", expanded=True)
+    with comment_expander:
+        # Display the comments for the selected movie
+        if selected_movie_info["comments"]:
+            for i in range(len(selected_movie_info["comments"])):
+                st.write(f"{selected_movie_info['nicknames'][i]}: {selected_movie_info['comments'][i]}")
         else:
-            st.write(f"Anonymous: {comment}")
+            st.write("No comments yet. Be the first to add a comment!")
+
+        # Add a "Add Comment" button to add a comment to the selected movie
+        with st.beta_container():
+            comment = st.text_input("Enter your comment")
+            nickname = st.text_input("Enter your nickname")
+            if st.button("Add Comment"):
+                if comment and nickname:
+                    selected_movie_info["comments"].append(comment)
+                    selected_movie_info["nicknames"].append(nickname)
+                    st.success(f"Comment added to {selected_movie}.")
+
     
     # Add a "Add Comment" button to add a comment to the selected movie
     if st.button("Add Comment"):
         comment = st.text_input("Enter your comment")
         nickname = st.text_input("Enter your nickname")
-    if comment and nickname:
-        selected_movie_info["comments"].append(comment)
-        selected_movie_info["nicknames"].append(nickname)
-        st.success(f"Comment added to {selected_movie}.")
+        if comment and nickname:
+            selected_movie_info["comments"].append(comment)
+            selected_movie_info["nicknames"].append(nickname)
+            st.success(f"Comment added to {selected_movie}.")
         
     # Add a "Rate" button to rate the selected movie
     if st.button("Rate"):
