@@ -92,7 +92,6 @@ def main():
 
     # Add a new movie to the database
     movies = add_new_movie(movies)
-if name == "main":
-    main()
+main()
 
     
