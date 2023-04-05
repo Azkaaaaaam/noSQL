@@ -26,9 +26,12 @@ def add_comment(selected_movie_info):
     nickname = st.text_input("Enter your nickname")
     if st.button("Add Comment"):
         if comment and nickname:
+            if "nicknames" not in selected_movie_info:
+                selected_movie_info["nicknames"] = []
             selected_movie_info["comments"].append(comment)
             selected_movie_info["nicknames"].append(nickname)
             st.success(f"Comment added to {selected_movie_info['title']}.")
+
 
 
 def display_comments(selected_movie_info):
