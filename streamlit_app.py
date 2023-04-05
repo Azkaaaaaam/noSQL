@@ -5,7 +5,7 @@ import pymongo
 #mongodb://_:<API-KEY>@global.aws.realm.mongodb.com:27020/?authMechanism=PLAIN&authSource=%24external&ssl=true&appName=data-mnfje:Cluster0:api-key
 
 #client = pymongo.MongoClient("mongodb+srv://kamounazzap:<password>@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
-db = client.test
+#db = client.test
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
