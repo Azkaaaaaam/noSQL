@@ -17,13 +17,14 @@ def add_comment(selected_movie_info):
         elif comment:
             selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
             st.success("Comment added.")
-
-
 def rate_movie(selected_movie_info):
-    rating = st.slider("Rate the movie (0-5)", 0, 5, 0)
+    rating = st.slider("Rate the movie (1-5)", 1, 5, 1)
     if st.button("Submit Review"):
-        selected_movie_info["ratings"].append(rating)
-        st.success("Rating added.")
+        if rating >= 1 and rating <= 5:
+            selected_movie_info["ratings"].append(rating)
+            st.success("Rating added.")
+        else:
+            st.error("Invalid rating. Please choose a rating between 1 and 5.")
 
 
 def add_new_movie(movies):
