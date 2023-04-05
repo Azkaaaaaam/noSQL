@@ -1,10 +1,18 @@
 import streamlit as st
 import pymongo
 
-# Connect to MongoDB
-client = pymongo.MongoClient("mongodb+srv://<kamounazzap>:<Hello123.>@<cluster0>.mongodb.net/<database>?retryWrites=true&w=majority")
-db = client.test
 
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://kamounazzap:Hello123@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+db = client.test
 # Retrieve data
 collection = db.movies
 movies2 = list(collection.find())
