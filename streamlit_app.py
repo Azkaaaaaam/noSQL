@@ -1,7 +1,7 @@
 import streamlit as st
-#import pymongo
-client = pymongo.MongoClient("mongodb+srv://kamounazzap:Hello123.@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
-db = client.test
+import pymongo
+#client = pymongo.MongoClient("mongodb+srv://kamounazzap:Hello123.@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
+#db = client.test
 import requests
 import json
 url = "https://data.mongodb-api.com/app/data-mnfje/endpoint/data/v1/action/findOne"
