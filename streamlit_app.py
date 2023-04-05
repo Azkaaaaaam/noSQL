@@ -11,12 +11,12 @@ def add_new_movie(movies):
     return movies
 
 
-def display_movie_info(selected_movie_info):
-    st.write(f"Title: {selected_movie_info['title']}")
-    st.write(f"Released year: {selected_movie_info['released_year']}")
-    st.write(f"Kind: {selected_movie_info['kind']}")
-    st.write(f"Nationality: {selected_movie_info['nationality']}")
-    st.write(f"Average ranking: {selected_movie_info['average_ranking']:.1f}")
+def display_movie_info(movie):
+    st.write(f"Title: {movie['title']}")
+    st.write(f"Released Year: {movie['released_year']}")
+    st.write(f"Kind: {movie['kind']}")
+    st.write(f"Nationality: {movie['nationality']}")
+    st.write(f"Average Ranking: {movie['average_ranking']}")
 
 
 def add_comment(selected_movie_info):
@@ -60,13 +60,12 @@ def main():
     
     # List of example movies
     movies = [
-        {"title": "The Shawshank Redemption", "released_year": 1994, "genre": "Drama", "nationality": "USA", "average_rating": 4.7, "comments": ["Great movie!", "One of my all-time favorites."]},
-        {"title": "The Godfather", "released_year": 1972, "genre": "Crime", "nationality": "USA", "average_rating": 4.8, "comments": ["A classic!", "Marlon Brando was amazing."]},
-        {"title": "The Dark Knight", "released_year": 2008, "genre": "Action", "nationality": "USA", "average_rating": 4.6, "comments": ["Heath Ledger's performance was outstanding.", "Great soundtrack."]},
-        {"title": "The Lord of the Rings: The Fellowship of the Ring", "released_year": 2001, "genre": "Adventure", "nationality": "USA", "average_rating": 4.5, "comments": ["Epic story!", "The special effects were amazing."]},
-        {"title": "Forrest Gump", "released_year": 1994, "genre": "Drama", "nationality": "USA", "average_rating": 4.4, "comments": ["Tom Hanks was perfect for this role.", "Heartwarming story."]}
-    ]
-    
+        {"title": "The Shawshank Redemption", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.7, "comments": ["Great movie!", "One of my all-time favorites."]},
+        {"title": "The Godfather", "released_year": 1972, "kind": "Crime", "nationality": "USA", "average_ranking": 4.8, "comments": ["A classic!", "Marlon Brando was amazing."]},
+        {"title": "The Dark Knight", "released_year": 2008, "kind": "Action", "nationality": "USA", "average_ranking": 4.6, "comments": ["Heath Ledger's performance was outstanding.", "Great soundtrack."]},
+        {"title": "The Lord of the Rings: The Fellowship of the Ring", "released_year": 2001, "kind": "Adventure", "nationality": "USA", "average_ranking": 4.5, "comments": ["Epic story!", "The special effects were amazing."]},
+        {"title": "Forrest Gump", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.4, "comments": ["Tom Hanks was perfect for this role.", "Heartwarming story."]}
+        ]
     # Create a list of movie titles for the dropdown menu
     movie_titles = [movie["title"] for movie in movies]
 
@@ -74,31 +73,13 @@ def main():
     selected_movie_title = st.selectbox("Select a movie", movie_titles)
 
     # Find the selected movie in the list of movies
-    selected_movie_info = next((movie for movie in movies if movie["title"] == selected_movie_title), None)
-
-    # Main page content
-    if selected_movie_info:
-        display_movie_info(selected_movie_info)
-        add_comment(selected_movie_info)
-        display_comments(selected_movie_info)
-        rate_movie(selected_movie_info)
-        if st.button("Delete Movie"):
-            movies = delete_movie(movies, selected_movie_info)
-            selected_movie_title = None
-    else:
-        st.error("Error: Could not find movie in database.")
-
-    # Sidebar content
-    st.sidebar.header("Add a new movie")
-    movies = add_new_movie(movies)
-
-    # Update list of movie titles for the dropdown menu
-    movie_titles = [movie["title"] for movie in movies]
-
-    # Create a dropdown menu to select a movie
-    selected_movie_title = st.selectbox("Select a movie", movie_titles) 
-
-
+    selected_movie_info = None
+    if selected_movie_title:
+        selected_movie_info = next((movie for movie in movies if movie["title"] == selected_movie_title), None)
+        if selected_movie_info:
+            display_movie_info(selected_movie_info)
+        else:
+            st.error("Error: Could not find movie in database.")
 main()
 
     
