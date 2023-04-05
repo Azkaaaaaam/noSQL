@@ -19,11 +19,11 @@ released_year = st.sidebar.number_input("Released year", min_value=1800, max_val
 kind = st.sidebar.text_input("Kind")
 nationality = st.sidebar.text_input("Nationality")
 if st.sidebar.button("Add movie"):
-    with driver.session() as session:
+  #  with driver.session() as session:
     #    session.run(ADD_MOVIE, title=title, released_year=released_year, kind=kind, nationality=nationality)
         st.sidebar.success(f"{title} has been added to the database.")
 
-with driver.session() as session:
+#with driver.session() as session:
     # Get all movies from database and add them to the dropdown list
    # movies = session.run(GET_ALL_MOVIES)
     movie_list = [movie["m"]["title"] for movie in movies]
