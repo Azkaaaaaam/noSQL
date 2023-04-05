@@ -24,34 +24,6 @@ response = requests.request("POST", url, headers=headers, data=payload)
 
 print(response.text)
 
-url = "https://data.mongodb-api.com/app/data-mnfje/endpoint/data/v1/insert"
-
-payload = json.dumps({
-    "collection": "moviesds",
-    "database": "moviesds",
-    "dataSource": "Cluster0",
-    "documents": [
-        {
-            "title": "New Movie",
-            "year": 2023,
-            "genre": "Action",
-            "director": "John Doe"
-        }
-    ]
-})
-
-headers = {
-    "Content-Type": "application/json",
-    "api-key": "gKkfz9siabHfG8cXbJeCfz55m1qyka5AYMdS9yyZMXkXANd6iUZrUD9tZUClqONs"
-}
-
-response = requests.request("POST", url, headers=headers, data=payload)
-
-print(response.text)
-
-
-
-
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
