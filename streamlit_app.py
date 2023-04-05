@@ -2,28 +2,6 @@ import streamlit as st
 #import pymongo
 #client = pymongo.MongoClient("mongodb+srv://kamounazzap:Hello123.@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
 #db = client.test
-import requests
-import json
-url = "https://data.mongodb-api.com/app/data-mnfje/endpoint/data/v1/action/findOne"
-
-payload = json.dumps({
-    "collection": "moviesds",
-    "database": "moviesds",
-    "dataSource": "Cluster0",
-    "projection": {
-        "_id": 1
-    }
-})
-headers = {
-  'Content-Type': 'application/json',
-  'Access-Control-Request-Headers': '*',
-  'api-key': gKkfz9siabHfG8cXbJeCfz55m1qyka5AYMdS9yyZMXkXANd6iUZrUD9tZUClqONs, 
-}
-
-response = requests.request("POST", url, headers=headers, data=payload)
-
-print(response.text)
-
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
