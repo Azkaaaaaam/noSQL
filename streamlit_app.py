@@ -31,10 +31,13 @@ def add_comment(selected_movie_info):
             selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
             st.success(f"Comment added to {selected_movie_info['title']}.")
 
+
 def display_comments(selected_movie_info):
     st.write("Comments:")
     for comment in selected_movie_info["comments"]:
-        if "nickname" in comment and comment["nickname"]:
+        if isinstance(comment, str):
+            st.write(f"Anonymous: {comment}")
+        elif isinstance(comment, dict) and "nickname" in comment and "comment" in comment:
             st.write(f"{comment['nickname']}: {comment['comment']}")
 
 def rate_movie(selected_movie_info):
