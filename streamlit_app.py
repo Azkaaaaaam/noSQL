@@ -1,4 +1,20 @@
 import streamlit as st
+import pymongo
+
+# Connect to MongoDB
+client = pymongo.MongoClient("mongodb+srv://<kamounazzap>:<Hello123.>@<cluster0>.mongodb.net/<database>?retryWrites=true&w=majority")
+db = client.test
+
+# Retrieve data
+collection = db.movies
+movies2 = list(collection.find())
+
+# Display data in Streamlit app
+for movie in movies2:
+    st.write(movie['title'])
+
+
+
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
