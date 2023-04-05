@@ -8,6 +8,7 @@ import pymongo
 client = pymongo.MongoClient("mongodb+srv://kamounazzap:Hello123.@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority")
 db = client.test
 #db = client.test
+movies_collection = db["moviesds"]
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
