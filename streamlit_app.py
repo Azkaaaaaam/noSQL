@@ -1,21 +1,23 @@
 import streamlit as st
+
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
     st.write(f"Released year: {selected_movie_info['released_year']}")
     st.write(f"Kind: {selected_movie_info['kind']}")
     st.write(f"Nationality: {selected_movie_info['nationality']}")
     st.write(f"Average ranking: {selected_movie_info['average_ranking']:.1f}")
+
+
 def add_comment(selected_movie_info):
+    nickname = st.text_input("Enter your nickname", value="Anonymous")
     comment = st.text_input("Enter your comment")
-    nickname = st.text_input("Enter your nickname")
-    if st.button("Add Comment") and comment and nickname:
-        selected_movie_info["comments"].append(comment)
-        selected_movie_info["nicknames"].append(nickname)
-        st.success(f"Comment added to {selected_movie_info['title']}.")
-    elif st.button("Add Comment") and not comment:
-        st.warning("Please enter a comment.")
-    elif st.button("Add Comment") and not nickname:
-        st.warning("Please enter a nickname.")
+    if st.button("Add Comment"):
+        if nickname != "Anonymous" and not comment:
+            st.error("You must write a comment.")
+        elif comment:
+            selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
+            st.success("Comment added.")
+
 
 def rate_movie(selected_movie_info):
     rating = st.slider("Rate the movie (0-5)", 0, 5, 0)
@@ -23,21 +25,30 @@ def rate_movie(selected_movie_info):
         selected_movie_info["ratings"].append(rating)
         st.success("Rating added.")
 
+
 def add_new_movie(movies):
     title = st.text_input("Title")
     released_year = st.number_input("Released year", min_value=1800, max_value=2100)
     kind = st.text_input("Kind")
     nationality = st.text_input("Nationality")
     if st.button("Add movie"):
-        new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality, "average_ranking": 0, "comments": [], "ratings": []}
+        new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality,
+                     "average_ranking": 0, "comments": [], "ratings": []}
         movies.append(new_movie)
         st.success(f"{title} has been added to the database.")
     return movies
+
 
 def delete_movie(movies, selected_movie_info):
     movies.remove(selected_movie_info)
     st.success(f"{selected_movie_info['title']} has been deleted from the database.")
     return movies
+
+
+def display_comments(selected_movie_info):
+    st.write("Comments:")
+    for comment in selected_movie_info["comments"]:
+        st.write(f"{comment['nickname']}: {comment['comment']}")
 
 
 def main():
