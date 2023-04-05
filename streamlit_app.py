@@ -25,21 +25,27 @@ movies = [
 # Add example movies to the dropdown list
 movie_list = [movie["title"] for movie in movies]
 selected_movie = st.selectbox("Select a movie", movie_list)
-
-# Get the selected movie's information and display it
 selected_movie_info = next((movie for movie in movies if movie["title"] == selected_movie), None)
 if selected_movie_info is not None:
+    # Add a list of nicknames to the selected movie info dictionary
+    if "nicknames" not in selected_movie_info:
+        selected_movie_info["nicknames"] = []
+    
     st.write(f"Title: {selected_movie_info['title']}")
     st.write(f"Released year: {selected_movie_info['released_year']}")
     st.write(f"Kind: {selected_movie_info['kind']}")
     st.write(f"Nationality: {selected_movie_info['nationality']}")
     st.write(f"Average ranking: {selected_movie_info['average_ranking']}")
-
+    
     # Display the list of comments associated with the selected movie
     st.write("Comments:")
     for i, comment in enumerate(selected_movie_info["comments"]):
-        st.write(f"{selected_movie_info['nicknames'][i]}: {comment}")
-
+        # Check if the current index is valid for the nicknames list
+        if i < len(selected_movie_info["nicknames"]):
+            st.write(f"{selected_movie_info['nicknames'][i]}: {comment}")
+        else:
+            st.write(f"Anonymous: {comment}")
+    
     # Add a "Add Comment" button to add a comment to the selected movie
     if st.button("Add Comment"):
         comment = st.text_input("Enter your comment")
@@ -47,13 +53,13 @@ if selected_movie_info is not None:
         selected_movie_info["comments"].append(comment)
         selected_movie_info["nicknames"].append(nickname)
         st.success(f"Comment added to {selected_movie}.")
-
+        
     # Add a "Rate" button to rate the selected movie
     if st.button("Rate"):
         rating = st.number_input("Enter your rating (0-5)", min_value=0, max_value=5)
         selected_movie_info["average_ranking"] = (rating + selected_movie_info["average_ranking"]) / 2
         st.success(f"You rated {selected_movie} {rating} stars.")
-
+        
     # Add a "Delete" button to delete the selected movie
     if st.button("Delete"):
         movies.remove(selected_movie_info)
