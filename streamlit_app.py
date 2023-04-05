@@ -22,32 +22,20 @@ def display_movie_info(selected_movie_info):
     
 
 def add_comment(selected_movie_info):
+    nickname = st.text_input("Enter your nickname", value="Anonymous")
     comment = st.text_input("Enter your comment")
-    nickname = st.text_input("Enter your nickname")
     if st.button("Add Comment"):
-        if comment and nickname:
+        if nickname != "Anonymous" and not comment:
+            st.error("You must write a comment.")
+        elif comment:
             selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
             st.success(f"Comment added to {selected_movie_info['title']}.")
+
 def display_comments(selected_movie_info):
     st.write("Comments:")
     for comment in selected_movie_info["comments"]:
         if "nickname" in comment and comment["nickname"]:
             st.write(f"{comment['nickname']}: {comment['comment']}")
-        else:
-            st.write(f"Anonymous: {comment['comment']}")
-
-def display_comments(selected_movie_info):
-    st.write("Comments:")
-    if "nicknames" in selected_movie_info:
-        for i, comment in enumerate(selected_movie_info["comments"]):
-            if i < len(selected_movie_info["nicknames"]):
-                st.write(f"{selected_movie_info['nicknames'][i]}: {comment}")
-            else:
-                st.write(f"Anonymous: {comment}")
-    else:
-        for comment in selected_movie_info["comments"]:
-            st.write(f"Anonymous: {comment}")
-
 
 def rate_movie(selected_movie_info):
     rating = st.number_input("Enter your rating (0-5)", min_value=0, max_value=5)
