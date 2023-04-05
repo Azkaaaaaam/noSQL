@@ -39,14 +39,19 @@ if selected_movie_info is not None:
     
     # Add a comments section
     comment_expander = st.beta_expander("Comments", expanded=True)
+    
+    
     with comment_expander:
-        # Display the comments for the selected movie
-        if selected_movie_info["comments"]:
-            for i in range(len(selected_movie_info["comments"])):
-                st.write(f"{selected_movie_info['nicknames'][i]}: {selected_movie_info['comments'][i]}")
+        st.write("Comments:")
+        if "nicknames" in selected_movie_info:
+            for i, comment in enumerate(selected_movie_info["comments"]):
+                if i < len(selected_movie_info["nicknames"]):
+                    st.write(f"{selected_movie_info['nicknames'][i]}: {comment}")
+                else:
+                    st.write(f"Anonymous: {comment}")
         else:
-            st.write("No comments yet. Be the first to add a comment!")
-
+            for comment in selected_movie_info["comments"]:
+                st.write(f"Anonymous: {comment}")
         # Add a "Add Comment" button to add a comment to the selected movie
         with st.beta_container():
             comment = st.text_input("Enter your comment")
