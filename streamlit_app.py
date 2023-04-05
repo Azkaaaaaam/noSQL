@@ -29,7 +29,6 @@ def add_comment(selected_movie_info):
             st.error("You must write a comment.")
         elif comment:
             selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
-            st.success(f"Comment added to {selected_movie_info['title']}.")
 
 
 def display_comments(selected_movie_info):
@@ -41,10 +40,9 @@ def display_comments(selected_movie_info):
             st.write(f"{comment['nickname']}: {comment['comment']}")
 
 def rate_movie(selected_movie_info):
-    rating = st.number_input("Enter your rating (0-5)", min_value=0, max_value=5)
-    selected_movie_info["average_ranking"] = (rating + selected_movie_info["average_ranking"]) / 2
-    st.success(f"You rated {selected_movie_info['title']} {rating} stars.")
-
+    if st.button("Submit Review"):
+        rating = st.number_input("Enter your rating (0-5)", min_value=0, max_value=5)
+        selected_movie_info["average_ranking"] = (rating + selected_movie_info["average_ranking"]) / 2
 
 def delete_movie(movies, selected_movie_info):
     movies.remove(selected_movie_info)
@@ -82,6 +80,8 @@ def main():
         display_movie_info(selected_movie_info)
         rate_movie(selected_movie_info)
         add_comment(selected_movie_info)
+        st.success(f"Comment added to {selected_movie_info['title']}.")
+        st.success(f"You rated {selected_movie_info['title']} {rating} stars.")
         display_comments(selected_movie_info)
         if st.button("Delete movie"):
             movies = delete_movie(movies, selected_movie_info)
