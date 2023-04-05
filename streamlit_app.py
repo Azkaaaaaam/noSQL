@@ -1,8 +1,5 @@
 import streamlit as st
-import pymongo
-
-
-
+#import pymongo
 client = pymongo.MongoClient("mongodb+srv://kamounazzap:Hello123.@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
 db = client.test
 import requests
