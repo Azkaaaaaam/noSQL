@@ -78,17 +78,28 @@ def main():
     movie_titles = [movie["title"] for movie in movies]
     selected_movie_title = st.selectbox("Select a movie", movie_titles)
     selected_movie_info = next((movie for movie in movies if movie["title"] == selected_movie_title), None)
+# Main page content
+    if selected_movie_title:
+        selected_movie_info = next((movie for movie in movies if movie["title"] == selected_movie_title), None)
+        if selected_movie_info:
+            display_movie_info(selected_movie_info)
+            add_comment(selected_movie_info)
+            display_comments(selected_movie_info)
+            rate_movie(selected_movie_info)
+            if st.button("Delete Movie"):
+                movies = delete_movie(movies, selected_movie_info)
+                selected_movie_title = None
+        else:
+            st.error("Error: Could not find movie in database.")
 
-    if selected_movie_info:
-        display_movie_info(selected_movie_info)
-        rate_movie(selected_movie_info)
-        add_comment(selected_movie_info)
-        display_comments(selected_movie_info)
-        if st.button("Delete movie"):
-            movies = delete_movie(movies, selected_movie_info)
+    # Sidebar content
+    st.sidebar.header("Add a new movie")
+    movies = add_new_movie(movies)
 
-    if st.sidebar.button("Add new movie"):
-        movies = add_new_movie(movies)
+    # Selectbox for choosing a movie
+    movie_titles = [movie["title"] for movie in movies]
+    selected_movie_title = st.selectbox("Select a movie", movie_titles)
+
 
 main()
 
