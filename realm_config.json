@@ -1,0 +1,5 @@
+realm-cli pull --remote=data-mnfje
+mv data/* . && rm -r data
+git add .
+git commit
+git push origin master
