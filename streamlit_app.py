@@ -31,11 +31,10 @@ def add_comment(selected_movie_info):
 def display_comments(selected_movie_info):
     st.write("Comments:")
     for comment in selected_movie_info["comments"]:
-        if "nickname" in comment:
+        if "nickname" in comment and comment["nickname"]:
             st.write(f"{comment['nickname']}: {comment['comment']}")
         else:
             st.write(f"Anonymous: {comment['comment']}")
-
 
 def display_comments(selected_movie_info):
     st.write("Comments:")
