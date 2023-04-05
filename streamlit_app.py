@@ -5,16 +5,17 @@ def display_movie_info(selected_movie_info):
     st.write(f"Kind: {selected_movie_info['kind']}")
     st.write(f"Nationality: {selected_movie_info['nationality']}")
     st.write(f"Average ranking: {selected_movie_info['average_ranking']:.1f}")
-
 def add_comment(selected_movie_info):
-    nickname = st.text_input("Enter your nickname", value="Anonymous")
     comment = st.text_input("Enter your comment")
-    if st.button("Add Comment"):
-        if nickname != "Anonymous" and not comment:
-            st.error("You must write a comment.")
-        elif comment:
-            selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
-            st.success("Comment added.")
+    nickname = st.text_input("Enter your nickname")
+    if st.button("Add Comment") and comment and nickname:
+        selected_movie_info["comments"].append(comment)
+        selected_movie_info["nicknames"].append(nickname)
+        st.success(f"Comment added to {selected_movie_info['title']}.")
+    elif st.button("Add Comment") and not comment:
+        st.warning("Please enter a comment.")
+    elif st.button("Add Comment") and not nickname:
+        st.warning("Please enter a nickname.")
 
 def rate_movie(selected_movie_info):
     rating = st.slider("Rate the movie (0-5)", 0, 5, 0)
