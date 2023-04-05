@@ -9,15 +9,17 @@ released_year = st.sidebar.number_input("Released year", min_value=1800, max_val
 kind = st.sidebar.text_input("Kind")
 nationality = st.sidebar.text_input("Nationality")
 if st.sidebar.button("Add movie"):
+    new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality, "average_ranking": 0, "comments": []}
+    movies.append(new_movie)
     st.sidebar.success(f"{title} has been added to the database.")
 
 # List of example movies
 movies = [
-    {"title": "The Shawshank Redemption", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.7},
-    {"title": "The Godfather", "released_year": 1972, "kind": "Crime", "nationality": "USA", "average_ranking": 4.8},
-    {"title": "The Dark Knight", "released_year": 2008, "kind": "Action", "nationality": "USA", "average_ranking": 4.5},
-    {"title": "Pulp Fiction", "released_year": 1994, "kind": "Crime", "nationality": "USA", "average_ranking": 4.4},
-    {"title": "Forrest Gump", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.6},
+    {"title": "The Shawshank Redemption", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.7, "comments": ["Great movie!", "One of my all-time favorites."]},
+    {"title": "The Godfather", "released_year": 1972, "kind": "Crime", "nationality": "USA", "average_ranking": 4.8, "comments": ["A classic!", "Marlon Brando was amazing."]},
+    {"title": "The Dark Knight", "released_year": 2008, "kind": "Action", "nationality": "USA", "average_ranking": 4.5, "comments": ["Heath Ledger's Joker was iconic.", "The action scenes were breathtaking."]},
+    {"title": "Pulp Fiction", "released_year": 1994, "kind": "Crime", "nationality": "USA", "average_ranking": 4.4, "comments": []},
+    {"title": "Forrest Gump", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.6, "comments": []},
 ]
 
 # Add example movies to the dropdown list
