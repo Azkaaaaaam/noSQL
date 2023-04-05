@@ -42,7 +42,11 @@ def display_comments(selected_movie_info):
 def rate_movie(selected_movie_info):
     if st.button("Submit Review"):
         rating = st.number_input("Enter your rating (0-5)", min_value=0, max_value=5)
-        selected_movie_info["average_ranking"] = (rating + selected_movie_info["average_ranking"]) / 2
+        num_reviews = selected_movie_info["num_reviews"]
+        current_ranking = selected_movie_info["average_ranking"]
+        new_ranking = (current_ranking * num_reviews + rating) / (num_reviews + 1)
+        selected_movie_info["average_ranking"] = new_ranking
+        selected_movie_info["num_reviews"] = num_reviews + 1
 
 def delete_movie(movies, selected_movie_info):
     movies.remove(selected_movie_info)
