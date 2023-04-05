@@ -50,10 +50,10 @@ if selected_movie_info is not None:
     if st.button("Add Comment"):
         comment = st.text_input("Enter your comment")
         nickname = st.text_input("Enter your nickname")
-        if comment and nickname:
-            selected_movie_info["comments"].append(comment)
-            selected_movie_info["nicknames"].append(nickname)
-            st.success(f"Comment added to {selected_movie}.")
+    if comment and nickname:
+        selected_movie_info["comments"].append(comment)
+        selected_movie_info["nicknames"].append(nickname)
+        st.success(f"Comment added to {selected_movie}.")
         
     # Add a "Rate" button to rate the selected movie
     if st.button("Rate"):
