@@ -44,12 +44,11 @@ def delete_movie(movies, selected_movie_info):
     st.success(f"{selected_movie_info['title']} has been deleted from the database.")
     return movies
 
-
 def display_comments(selected_movie_info):
     st.write("Comments:")
     for comment in selected_movie_info["comments"]:
-        st.write(f"{comment['nickname']}: {comment['comment']}")
-
+        if "nickname" in comment and "comment" in comment:
+            st.write(f"{comment['nickname']}: {comment['comment']}")
 
 def main():
     st.set_page_config(page_title="Movie Database", page_icon=":movie_camera:")
