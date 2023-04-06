@@ -25,23 +25,24 @@ def add_comment(selected_movie_info):
         if nickname != "Anonymous" and not comment:
             st.error("You must write a comment.")
         elif comment:
-            selected_movie_info["comments"].append({"nickname": nickname, "comment": comment})
+            comments = selected_movie_info.get("comments", [])
+            comments.append({"nickname": nickname, "comment": comment})
+            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
             st.success("Comment added.")
             
 def rate_movie(selected_movie_info):
     rating = st.slider("Rate the movie (1-5)", 1, 5, 1)
     if st.button("Submit Review"):
         if rating >= 1 and rating <= 5:
-            if "ratings" in selected_movie_info:
-                selected_movie_info["ratings"].append(rating)
-            else:
-                selected_movie_info["ratings"] = [rating]
+            ratings = selected_movie_info.get("ratings", [])
+            ratings.append(rating)
+            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"ratings": ratings}})
             st.success("Rating added.")
         else:
             st.error("Invalid rating. Please choose a rating between 1 and 5.")
 
 
-def add_new_movie(movies):
+def add_new_movie():
     title = st.text_input("Title")
     released_year = st.number_input("Released year", min_value=1800, max_value=2100)
     kind = st.text_input("Kind")
@@ -49,19 +50,22 @@ def add_new_movie(movies):
     if st.button("Add movie"):
         new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality,
                      "average_ranking": 0, "comments": [], "ratings": []}
-        movies.append(new_movie)
+        movies_collection.insert_one(new_movie)
         st.success(f"{title} has been added to the database.")
-    return movies
 
 
-def delete_movie(movies, selected_movie_info):
-    movies.remove(selected_movie_info)
+def delete_movie():
+    movie_titles = [movie["title"] for movie in movies_collection.find()]
+    selected_movie_title = st.selectbox("Select a movie", movie_titles)
+    selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
+    movies_collection.delete_one({"_id": selected_movie_info["_id"]})
     st.success(f"{selected_movie_info['title']} has been deleted from the database.")
-    return movies
+
 
 def display_comments(selected_movie_info):
     st.write("Comments:")
-    for comment in selected_movie_info["comments"]:
+    comments = selected_movie_info.get("comments", [])
+    for comment in comments:
         if "nickname" in comment and "comment" in comment:
             st.write(f"{comment['nickname']}: {comment['comment']}")
 
@@ -73,37 +77,46 @@ def main():
     menu = ["Home", "Add New Movie", "View Movie Info", "Delete Movie"]
     choice = st.sidebar.selectbox("Select an option", menu)
 
-    # List of example movies
-    movies = [
-        {"title": "The Shawshank Redemption", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.7, "comments": ["Great movie!", "One of my all-time favorites."]},
-        {"title": "The Godfather", "released_year": 1972, "kind": "Crime", "nationality": "USA", "average_ranking": 4.8, "comments": ["A classic!", "Marlon Brando was amazing."]},
-        {"title": "The Dark Knight", "released_year": 2008, "kind": "Action", "nationality": "USA", "average_ranking": 4.6, "comments": ["Heath Ledger's performance was outstanding.", "Great soundtrack."]},
-        {"title": "The Lord of the Rings: The Fellowship of the Ring", "released_year": 2001, "kind": "Adventure", "nationality": "USA", "average_ranking": 4.5, "comments": ["Epic story!", "The special effects were amazing."]},
-        {"title": "Forrest Gump", "released_year": 1994, "kind": "Drama", "nationality": "USA", "average_ranking": 4.4, "comments": ["Tom Hanks was perfect for this role.", "Heartwarming story."]}
-        ]
-    
+    # Connect to the database
+    conn = sqlite3.connect('movie_database.db')
+    c = conn.cursor()
+
     if choice == "Home":
         st.write("Welcome to the Movie Database! Use the menu on the left to navigate.")
 
     elif choice == "Add New Movie":
-        movies = add_new_movie(movies)
+        add_new_movie(c, conn)
 
     elif choice == "View Movie Info":
-        selected_movie_title = st.selectbox("Select a movie", [movie["title"] for movie in movies])
-        selected_movie_info = [movie for movie in movies if movie["title"] == selected_movie_title][0]
+        # Retrieve the list of movie titles from the database
+        movie_titles = get_movie_titles(c)
+
+        selected_movie_title = st.selectbox("Select a movie", movie_titles)
+        selected_movie_info = get_movie_info(c, selected_movie_title)
         display_movie_info(selected_movie_info)
-        add_comment(selected_movie_info)
+        add_comment(selected_movie_info, c, conn)
         display_comments(selected_movie_info)
-        rate_movie(selected_movie_info)
+        rate_movie(selected_movie_info, c, conn)
 
     elif choice == "Delete Movie":
-        selected_movie_title = st.selectbox("Select a movie", [movie["title"] for movie in movies])
-        selected_movie_info = [movie for movie in movies if movie["title"] == selected_movie_title][0]
-        movies = delete_movie(movies, selected_movie_info)
+        # Retrieve the list of movie titles from the database
+        movie_titles = get_movie_titles(c)
+
+        selected_movie_title = st.selectbox("Select a movie", movie_titles)
+        selected_movie_info = get_movie_info(c, selected_movie_title)
+        delete_movie(selected_movie_info, c, conn)
 
     st.sidebar.write("Movie List")
+    # Retrieve the list of movies from the database
+    movies = get_all_movies(c)
     for movie in movies:
-        st.sidebar.write(movie["title"])            
+        st.sidebar.write(movie[0])
+
+    # Close the database connection
+    conn.close()
+
+main()
+
 main()
 
     
