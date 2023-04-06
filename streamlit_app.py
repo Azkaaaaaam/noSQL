@@ -122,7 +122,7 @@ def main():
         rating = st.slider("Rate the movie", min_value=1, max_value=10, step=1)
         submit_rating = st.button("Submit Rating")
         if submit_rating:
-            update_rating(selected_movie_info, rating)
+            rate_movie(selected_movie_info)
 
     # View movie details
     st.sidebar.write("\n")
