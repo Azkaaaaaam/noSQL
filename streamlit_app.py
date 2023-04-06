@@ -37,16 +37,17 @@ def add_comment(selected_movie_info):
             movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
             st.success("Comment added.")
             
-def rate_movie(selected_movie_info):
-    rating = st.slider("Rate the movie (1-5)", 1, 5, 1)
-    if st.button("Submit rating"):
-        if rating >= 1 and rating <= 5:
-            ratings = selected_movie_info.get("average_rating", [])
-            ratings.append(rating)
-            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"average_rating": average_rating}})
-            st.success("Rating added.")
-        else:
-            st.error("Invalid rating. Please choose a rating between 1 and 5.")
+def update_rating(selected_movie_info, rating):
+    old_average_rating = selected_movie_info.get("average_rating", 0)
+    ratings = selected_movie_info.get("ratings", [])
+    ratings.append(rating)
+    new_average_rating = round(sum(ratings) / len(ratings), 2)
+    movies_collection.update_one(
+        {"_id": selected_movie_info["_id"]},
+        {"$set": {"average_rating": new_average_rating, "ratings": ratings}}
+    )
+    st.success("Rating added.")
+    return old_average_rating, new_average_rating
 
 def delete_movie():
     movie_titles = [movie["title"] for movie in movies_collection.find()]
@@ -122,7 +123,9 @@ def main():
         rating = st.slider("Rate the movie", min_value=1, max_value=10, step=1)
         submit_rating = st.button("Submit Rating")
         if submit_rating:
-            rate_movie(selected_movie_info)
+            old_rating, new_rating = update_rating(selected_movie_info, rating)
+            st.write(f"Old average rating: {old_rating}")
+            st.write(f"New average rating: {new_rating}")
 
     # View movie details
     st.sidebar.write("\n")
