@@ -79,13 +79,14 @@ def add_new_movie():
 
 def display_comments(selected_movie_info):
     st.header("Comments:")
+def display_comments(selected_movie_info):
     comments = selected_movie_info.get("comments", [])
-    data = []
+    st.write("### Comments")
+    data = [["Nickname", "Comment"]]
     for comment in comments:
-        if "nickname" in comment and "comment" in comment:
+        if isinstance(comment, dict):
             data.append([comment['nickname'], comment['comment']])
-    if data:
-        st.table(data)
+    st.table(data)
     else:
         st.write("No comments yet.")
 
