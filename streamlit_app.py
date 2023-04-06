@@ -82,7 +82,7 @@ def main():
     st.set_page_config(page_title="Movie Database", page_icon=":movie_camera:")
 
     # Sidebar options
-    options = ["View All Movies", "Search Movies", "Add Movie", "Delete Movie"]
+    options = ["View All Movies", "Add Movie", "Delete Movie", "Rate Movie"]
     choice = st.sidebar.selectbox("Select an option", options)
 
     # View all movies
