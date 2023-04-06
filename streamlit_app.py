@@ -56,12 +56,14 @@ def add_new_movie():
         st.success(f"{title} has been added to the database.")
 
 
-def delete_movie():
-    movie_titles = [movie["title"] for movie in movies_collection.find()]
-    selected_movie_title = st.selectbox("Select a movie", movie_titles)
-    selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
-    movies_collection.delete_one({"_id": selected_movie_info["_id"]})
-    st.success(f"{selected_movie_info['title']} has been deleted from the database.")
+def display_movie_info(selected_movie_info):
+    if selected_movie_info is not None:
+        st.write(f"Title: {selected_movie_info['title']}")
+        st.write(f"Year: {selected_movie_info['year']}")
+        st.write(f"Genre: {selected_movie_info['genre']}")
+        st.write(f"Director: {selected_movie_info['director']}")
+    else:
+        st.write("No movie selected.")
 
 
 def display_comments(selected_movie_info):
