@@ -132,9 +132,11 @@ def main():
     st.sidebar.write("\n")
     display_movie_info(selected_movie_info)
     st.sidebar.write("\n")
-    rate_movie(selected_movie_info)
+    rate_comment_movie(selected_movie_info)
     st.sidebar.write("\n")
-    add_comment(selected_movie_info)
+    delete_existing_movie(selected_movie_info)
+    st.sidebar.write("\n")
+    add_new_movie_form()
 
 
 main()
