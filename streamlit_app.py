@@ -54,6 +54,7 @@ def update_rating(selected_movie_info, rating):
     st.success("Rating added.")
     return old_average_rating, new_average_rating
 
+
 def delete_movie():
     movie_titles = [movie["title"] for movie in movies_collection.find()]
     movie_to_delete = st.selectbox("Select a movie to delete", movie_titles)
