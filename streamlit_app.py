@@ -25,17 +25,17 @@ def display_movie_info(selected_movie_info):
     else:
         st.write("No movie selected.")
 
-#def add_comment(selected_movie_info):
- #   nickname = st.text_input("Enter your nickname", value="Anonymous")
-  #  comment = st.text_input("Enter your comment")
-   # if st.button("Add Comment"):
-    #    if nickname != "Anonymous" and not comment:
-     #       st.error("You must write a comment.")
-      #  elif comment:
-       #     comments = selected_movie_info.get("comments", [])
-        #    comments.append({"nickname": nickname, "comment": comment})
-         #   movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
-          #  st.success("Comment added.")
+def add_comment(selected_movie_info):
+    nickname = st.text_input("Enter your nickname", value="Anonymous")
+    comment = st.text_input("Enter your comment")
+    if st.button("Add Comment"):
+        if nickname != "Anonymous" and not comment:
+            st.error("You must write a comment.")
+        elif comment:
+            comments = selected_movie_info.get("comments", [])
+            comments.append({"nickname": nickname, "comment": comment})
+            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
+            st.success("Comment added.")
             
 def update_rating(selected_movie_info, rating):
     old_average_rating = selected_movie_info.get("average_rating", 0)
@@ -109,34 +109,37 @@ def main():
         st.header("Delete Movie")
         delete_movie()
     elif choice == "Rate Movie":
-        
-        nickname = st.text_input("Enter your nickname", value="Anonymous")
-        comment = st.text_input("Enter your comment")
-        if st.button("Add Comment"):
-            if nickname != "Anonymous" and not comment:
-                st.error("You must write a comment.")
-        elif comment:
-            comments = selected_movie_info.get("comments", [])
-            comments.append({"nickname": nickname, "comment": comment})
-            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
-            st.success("Comment added.")
-        st.header("Rate Movie")
-        movie_titles = [movie["title"] for movie in movies_collection.find()]
-        selected_movie_title = st.selectbox("Select a movie", movie_titles)
-        selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
-        st.write(f"Title: {selected_movie_info['title']}")
-        st.write(f"Released year: {selected_movie_info['year']}")
-        st.write(f"genre: {selected_movie_info['genre']}")
-        st.write(f"Nationality: {selected_movie_info['nationality']}")
-        st.write(f"Average rating: {selected_movie_info['average_rating']}")
-        display_comments(selected_movie_info)
-        st.write("\n")
-        rating = st.slider("Rate the movie", min_value=1, max_value=10, step=1)
-        submit_rating = st.button("Submit Rating")
-        if submit_rating:
-            old_rating, new_rating = update_rating(selected_movie_info, rating)
-            st.write(f"Old average rating: {old_rating}")
-            st.write(f"New average rating: {new_rating}")
+        with col1:
+            nickname = st.text_input("Enter your nickname", value="Anonymous")
+            comment = st.text_input("Enter your comment")
+            if st.button("Add Comment"):
+                if nickname != "Anonymous" and not comment:
+                    st.error("You must write a comment.")
+                elif comment:
+                    comments = selected_movie_info.get("comments", [])
+                    comments.append({"nickname": nickname, "comment": comment})
+                    movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
+                    st.success("Comment added.")
+
+        # Column 2: Rate Movie
+            with col2:
+            st.header("Rate Movie")
+            movie_titles = [movie["title"] for movie in movies_collection.find()]
+            selected_movie_title = st.selectbox("Select a movie", movie_titles)
+            selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
+            st.write(f"Title: {selected_movie_info['title']}")
+            st.write(f"Released year: {selected_movie_info['year']}")
+            st.write(f"genre: {selected_movie_info['genre']}")
+            st.write(f"Nationality: {selected_movie_info['nationality']}")
+            st.write(f"Average rating: {selected_movie_info['average_rating']}")
+            display_comments(selected_movie_info)
+            st.write("\n")
+            rating = st.slider("Rate the movie", min_value=1, max_value=10, step=1)
+            submit_rating = st.button("Submit Rating")
+            if submit_rating:
+                old_rating, new_rating = update_rating(selected_movie_info, rating)
+                st.write(f"Old average rating: {old_rating}")
+                st.write(f"New average rating: {new_rating}")
 
     # View movie details
     st.sidebar.write("\n")
