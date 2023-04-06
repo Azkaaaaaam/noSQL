@@ -124,10 +124,10 @@ def main():
     # Column 1: Add Comment
         with col1:
            # if choice == "Add Comment":
-                add_comment(selected_movie_info)
+            add_comment(selected_movie_info)
 
         # Column 2: Rate Movie
-          with col2:
+        with col2:
             st.header("Rate Movie")
             rating = st.slider("Rate the movie", min_value=1, max_value=10, step=1)
             submit_rating = st.button("Submit Rating")
