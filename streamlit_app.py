@@ -39,7 +39,7 @@ def add_comment(selected_movie_info):
             
 def rate_movie(selected_movie_info):
     rating = st.slider("Rate the movie (1-5)", 1, 5, 1)
-    if st.button("Submit Review"):
+    if st.button("Submit rating"):
         if rating >= 1 and rating <= 5:
             ratings = selected_movie_info.get("average_rating", [])
             ratings.append(rating)
@@ -127,7 +127,7 @@ def main():
     # View movie details
     st.sidebar.write("\n")
     movie_titles = [movie["title"] for movie in movies_collection.find()]
-    selected_movie_title = st.sidebar.selectbox("Select a movie", movie_titles)
+    selected_movie_title = st.sidebar.selectbox("Select a movie", movie_titles, key="unique_key")
     selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
     st.sidebar.write("\n")
 
