@@ -9,7 +9,6 @@ import sqlite3
 
 client = pymongo.MongoClient("mongodb+srv://kamounazzap:Hello123.@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority")
 db = client.test
-#db = client.test
 movies_collection = db["moviesds"]
 
 
