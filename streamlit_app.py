@@ -38,10 +38,12 @@ def add_comment(selected_movie_info):
             st.error("You must write a comment.")
         elif comment:
             comments = selected_movie_info.get("comments", [])
+            if not isinstance(comments, list):
+                comments = [comments]
             comments.append({"nickname": nickname, "comment": comment})
             movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"comments": comments}})
             st.success("Comment added.")
-            
+
 def update_rating(selected_movie_info, rating):
     old_average_rating = selected_movie_info.get("average_rating", 0)
     ratings = selected_movie_info.get("ratings", [])
