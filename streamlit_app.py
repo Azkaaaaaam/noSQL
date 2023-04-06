@@ -130,12 +130,6 @@ def main():
     selected_movie_title = st.sidebar.selectbox("Select a movie", movie_titles)
     selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
     st.sidebar.write("\n")
-    display_movie_info(selected_movie_info)
-    st.sidebar.write("\n")
-    rate_movie(selected_movie_info)
-    st.sidebar.write("\n")
-    add_comment(selected_movie_info)
-
 
 
 main()
