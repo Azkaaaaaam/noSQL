@@ -119,11 +119,12 @@ def main():
         st.write(f"Average rating: {selected_movie_info['average_rating']}")
         display_comments(selected_movie_info)
         st.write("\n")
-        col1, col2 = st.beta_columns(2)
+        col1, col2 = st.columns(2)
 
     # Column 1: Add Comment
         with col1:
            # if choice == "Add Comment":
+            st.header("Comment a Movie")
             add_comment(selected_movie_info)
 
         # Column 2: Rate Movie
