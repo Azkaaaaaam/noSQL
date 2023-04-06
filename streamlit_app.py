@@ -16,12 +16,14 @@ db = client["moviesds"]
 movies_collection = db["moviesds"]
 
 def display_movie_info(selected_movie_info):
-    st.write(f"Title: {selected_movie_info['title']}")
-    st.write(f"Released year: {selected_movie_info['year']}")
-    st.write(f"genre: {selected_movie_info['genre']}")
-    st.write(f"Nationality: {selected_movie_info['nationality']}")
-    st.write(f"average rating: {selected_movie_info['average_rating']:.1f}")
-
+    if selected_movie_info is not None:
+        st.write(f"Title: {selected_movie_info['title']}")
+        st.write(f"year: {selected_movie_info['year']}")
+        st.write(f"genre: {selected_movie_info['genre']}")
+        st.write(f"Nationality: {selected_movie_info['nationality']}")
+        st.write(f"average rating: {selected_movie_info['average_rating']:.1f}")
+    else:
+        st.write("No movie selected.")
 
 def add_comment(selected_movie_info):
     nickname = st.text_input("Enter your nickname", value="Anonymous")
@@ -39,9 +41,9 @@ def rate_movie(selected_movie_info):
     rating = st.slider("Rate the movie (1-5)", 1, 5, 1)
     if st.button("Submit Review"):
         if rating >= 1 and rating <= 5:
-            ratings = selected_movie_info.get("ratings", [])
+            ratings = selected_movie_info.get("average_rating", [])
             ratings.append(rating)
-            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"ratings": ratings}})
+            movies_collection.update_one({"_id": selected_movie_info["_id"]}, {"$set": {"average_rating": average_rating}})
             st.success("Rating added.")
         else:
             st.error("Invalid rating. Please choose a rating between 1 and 5.")
@@ -49,24 +51,16 @@ def rate_movie(selected_movie_info):
 
 def add_new_movie():
     title = st.text_input("Title")
-    released_year = st.number_input("Released year", min_value=1800, max_value=2100)
-    kind = st.text_input("Kind")
+    year = st.number_input("year", min_value=1800, max_value=2100)
+    genre = st.text_input("genre")
     nationality = st.text_input("Nationality")
     if st.button("Add movie"):
-        new_movie = {"title": title, "released_year": released_year, "kind": kind, "nationality": nationality,
-                     "average_ranking": 0, "comments": [], "ratings": []}
+        new_movie = {"title": title, "year": year, "genre": genre, "nationality": nationality,
+                     "average_rating": 0, "comments": [], "ratings": []}
         movies_collection.insert_one(new_movie)
         st.success(f"{title} has been added to the database.")
 
 
-def display_movie_info(selected_movie_info):
-    if selected_movie_info is not None:
-        st.write(f"Title: {selected_movie_info['title']}")
-        st.write(f"Year: {selected_movie_info['year']}")
-        st.write(f"Genre: {selected_movie_info['genre']}")
-        st.write(f"Director: {selected_movie_info['director']}")
-    else:
-        st.write("No movie selected.")
 
 
 def display_comments(selected_movie_info):
@@ -90,10 +84,10 @@ def main():
         movies = movies_collection.find()
         for movie in movies:
             st.write(f"Title: {movie['title']}")
-            st.write(f"Released year: {movie['released_year']}")
-            st.write(f"Kind: {movie['kind']}")
+            st.write(f"Released year: {movie['year']}")
+            st.write(f"genre: {movie['genre']}")
             st.write(f"Nationality: {movie['nationality']}")
-            st.write(f"Average ranking: {movie['average_ranking']:.1f}")
+            st.write(f"Average rating: {movie['average_rating']:.1f}")
             display_comments(movie)
             st.write("\n")
 
@@ -102,14 +96,14 @@ def main():
         st.header("Search Movies")
         search_term = st.text_input("Enter a search term")
         movies = movies_collection.find({"$or": [{"title": {"$regex": search_term, "$options": "-i"}},
-                                                  {"kind": {"$regex": search_term, "$options": "-i"}},
+                                                  {"genre": {"$regex": search_term, "$options": "-i"}},
                                                   {"nationality": {"$regex": search_term, "$options": "-i"}}]})
         for movie in movies:
             st.write(f"Title: {movie['title']}")
-            st.write(f"Released year: {movie['released_year']}")
-            st.write(f"Kind: {movie['kind']}")
+            st.write(f"Released year: {movie['year']}")
+            st.write(f"genre: {movie['genre']}")
             st.write(f"Nationality: {movie['nationality']}")
-            st.write(f"Average ranking: {movie['average_ranking']:.1f}")
+            st.write(f"Average rating: {movie['average_rating']:.1f}")
             display_comments(movie)
             st.write("\n")
 
