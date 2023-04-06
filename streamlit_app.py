@@ -17,13 +17,17 @@ movies_collection = db["moviesds"]
 
 def display_movie_info(selected_movie_info):
     if selected_movie_info is not None:
-        st.write(f"Title: {selected_movie_info['title']}")
-        st.write(f"year: {selected_movie_info['year']}")
-        st.write(f"genre: {selected_movie_info['genre']}")
-        st.write(f"Nationality: {selected_movie_info['nationality']}")
-        st.write(f"average rating: {selected_movie_info['average_rating']}")
+        data = {
+            "Title": [selected_movie_info['title']],
+            "Year": [selected_movie_info['year']],
+            "Genre": [selected_movie_info['genre']],
+            "Nationality": [selected_movie_info['nationality']],
+            "Average Rating": [selected_movie_info['average_rating']]
+        }
+        st.table(data)
     else:
         st.write("No movie selected.")
+
 
 def add_comment(selected_movie_info):
     nickname = st.text_input("Enter your nickname", value="Anonymous")
@@ -91,11 +95,7 @@ def main():
         st.header("All Movies")
         movies = movies_collection.find()
         for movie in movies:
-            st.write(f"Title: {movie['title']}")
-            st.write(f"Released year: {movie['year']}")
-            st.write(f"genre: {movie['genre']}")
-            st.write(f"Nationality: {movie['nationality']}")
-            st.write(f"Average rating: {movie['average_rating']}")
+            display_movie_info(selected_movie_info)
             display_comments(movie)
             st.write("\n")
 
@@ -112,11 +112,7 @@ def main():
         movie_titles = [movie["title"] for movie in movies_collection.find()]
         selected_movie_title = st.selectbox("Select a movie", movie_titles)
         selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
-        st.write(f"Title: {selected_movie_info['title']}")
-        st.write(f"Released year: {selected_movie_info['year']}")
-        st.write(f"genre: {selected_movie_info['genre']}")
-        st.write(f"Nationality: {selected_movie_info['nationality']}")
-        st.write(f"Average rating: {selected_movie_info['average_rating']}")
+        display_movie_info(selected_movie_info)
         display_comments(selected_movie_info)
         st.write("\n")
         col1, col2 = st.columns(2)
