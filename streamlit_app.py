@@ -100,8 +100,9 @@ def main():
         st.header("All Movies")
         movies = movies_collection.find()
         for movie in movies:
+            selected_movie_info = movie
             display_movie_info(selected_movie_info)
-            display_comments(movie)
+            display_comments(selected_movie_info)
             st.write("\n")
 
     # Add movie
@@ -119,6 +120,7 @@ def main():
         selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
         display_movie_info(selected_movie_info)
         display_comments(selected_movie_info)
+
         st.write("\n")
         col1, col2 = st.columns(2)
 
