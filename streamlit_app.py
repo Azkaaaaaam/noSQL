@@ -21,7 +21,7 @@ def display_movie_info(selected_movie_info):
         st.write(f"year: {selected_movie_info['year']}")
         st.write(f"genre: {selected_movie_info['genre']}")
         st.write(f"Nationality: {selected_movie_info['nationality']}")
-        st.write(f"average rating: {selected_movie_info['average_rating']:.1f}")
+        st.write(f"average rating: {selected_movie_info['average_rating']}")
     else:
         st.write("No movie selected.")
 
@@ -87,7 +87,7 @@ def main():
             st.write(f"Released year: {movie['year']}")
             st.write(f"genre: {movie['genre']}")
             st.write(f"Nationality: {movie['nationality']}")
-            st.write(f"Average rating: {movie['average_rating']:.1f}")
+            st.write(f"Average rating: {movie['average_rating']}")
             display_comments(movie)
             st.write("\n")
 
@@ -103,7 +103,7 @@ def main():
             st.write(f"Released year: {movie['year']}")
             st.write(f"genre: {movie['genre']}")
             st.write(f"Nationality: {movie['nationality']}")
-            st.write(f"Average rating: {movie['average_rating']:.1f}")
+            st.write(f"Average rating: {movie['average_rating']}")
             display_comments(movie)
             st.write("\n")
 
