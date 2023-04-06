@@ -8,9 +8,12 @@ import sqlite3
 
 
 client = pymongo.MongoClient("mongodb+srv://streamlit:streamlit@cluster0.9gb1qb6.mongodb.net/?retryWrites=true&w=majority")
-db = client.test
-movies_collection = db["moviesds"]
 
+# Access the "moviesds" database.
+db = client["moviesds"]
+
+# Access the "moviesds" collection.
+movies_collection = db["moviesds"]
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
