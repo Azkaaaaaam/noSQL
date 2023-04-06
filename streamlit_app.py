@@ -126,7 +126,7 @@ def main():
     # Delete movie
     elif choice == "Delete Movie":
         st.header("Delete Movie")
-        delete_movie()
+        delete_movie(selected_movie_info, movies_collection)
 
     # View movie details
     st.sidebar.write("\n")
