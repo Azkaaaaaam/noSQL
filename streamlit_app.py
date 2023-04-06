@@ -98,22 +98,6 @@ def main():
             display_comments(movie)
             st.write("\n")
 
-    # Search movies
-    elif choice == "Search Movies":
-        st.header("Search Movies")
-        search_term = st.text_input("Enter a search term")
-        movies = movies_collection.find({"$or": [{"title": {"$regex": search_term, "$options": "-i"}},
-                                                  {"genre": {"$regex": search_term, "$options": "-i"}},
-                                                  {"nationality": {"$regex": search_term, "$options": "-i"}}]})
-        for movie in movies:
-            st.write(f"Title: {movie['title']}")
-            st.write(f"Released year: {movie['year']}")
-            st.write(f"genre: {movie['genre']}")
-            st.write(f"Nationality: {movie['nationality']}")
-            st.write(f"Average rating: {movie['average_rating']}")
-            display_comments(movie)
-            st.write("\n")
-
     # Add movie
     elif choice == "Add Movie":
         st.header("Add Movie")
@@ -130,15 +114,7 @@ def main():
     selected_movie_title = st.sidebar.selectbox("Select a movie", movie_titles)
     selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
     st.sidebar.write("\n")
-    display_movie_info(selected_movie_info)
-    st.sidebar.write("\n")
-    rate_movie(selected_movie_info)
-    st.sidebar.write("\n")
-    display_comments(selected_movie_info)
-    st.sidebar.write("\n")
-    delete_existing_movie(selected_movie_info)
-    st.sidebar.write("\n")
-    add_new_movie_form()
+ 
 
 
 main()
