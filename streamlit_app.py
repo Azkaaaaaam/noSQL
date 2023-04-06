@@ -12,6 +12,7 @@ db = client.test
 #db = client.test
 movies_collection = db["moviesds"]
 
+
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
     st.write(f"Released year: {selected_movie_info['released_year']}")
@@ -71,54 +72,65 @@ def display_comments(selected_movie_info):
         if "nickname" in comment and "comment" in comment:
             st.write(f"{comment['nickname']}: {comment['comment']}")
 
+
 def main():
     st.set_page_config(page_title="Movie Database", page_icon=":movie_camera:")
 
-    st.title("Movie Database")
+    # Sidebar options
+    options = ["View All Movies", "Search Movies", "Add Movie", "Delete Movie"]
+    choice = st.sidebar.selectbox("Select an option", options)
 
-    menu = ["Home", "Add New Movie", "View Movie Info", "Delete Movie"]
-    choice = st.sidebar.selectbox("Select an option", menu)
+    # View all movies
+    if choice == "View All Movies":
+        st.header("All Movies")
+        movies = movies_collection.find()
+        for movie in movies:
+            st.write(f"Title: {movie['title']}")
+            st.write(f"Released year: {movie['released_year']}")
+            st.write(f"Kind: {movie['kind']}")
+            st.write(f"Nationality: {movie['nationality']}")
+            st.write(f"Average ranking: {movie['average_ranking']:.1f}")
+            display_comments(movie)
+            st.write("\n")
 
-    # Connect to the database
-    conn = sqlite3.connect('movie_database.db')
-    c = conn.cursor()
+    # Search movies
+    elif choice == "Search Movies":
+        st.header("Search Movies")
+        search_term = st.text_input("Enter a search term")
+        movies = movies_collection.find({"$or": [{"title": {"$regex": search_term, "$options": "-i"}},
+                                                  {"kind": {"$regex": search_term, "$options": "-i"}},
+                                                  {"nationality": {"$regex": search_term, "$options": "-i"}}]})
+        for movie in movies:
+            st.write(f"Title: {movie['title']}")
+            st.write(f"Released year: {movie['released_year']}")
+            st.write(f"Kind: {movie['kind']}")
+            st.write(f"Nationality: {movie['nationality']}")
+            st.write(f"Average ranking: {movie['average_ranking']:.1f}")
+            display_comments(movie)
+            st.write("\n")
 
-    if choice == "Home":
-        st.write("Welcome to the Movie Database! Use the menu on the left to navigate.")
+    # Add movie
+    elif choice == "Add Movie":
+        st.header("Add Movie")
+        add_new_movie()
 
-    elif choice == "Add New Movie":
-        add_new_movie(c, conn)
-
-    elif choice == "View Movie Info":
-        # Retrieve the list of movie titles from the database
-        movie_titles = get_movie_titles(c)
-
-        selected_movie_title = st.selectbox("Select a movie", movie_titles)
-        selected_movie_info = get_movie_info(c, selected_movie_title)
-        display_movie_info(selected_movie_info)
-        add_comment(selected_movie_info, c, conn)
-        display_comments(selected_movie_info)
-        rate_movie(selected_movie_info, c, conn)
-
+    # Delete movie
     elif choice == "Delete Movie":
-        # Retrieve the list of movie titles from the database
-        movie_titles = get_movie_titles(c)
+        st.header("Delete Movie")
+        delete_movie()
 
-        selected_movie_title = st.selectbox("Select a movie", movie_titles)
-        selected_movie_info = get_movie_info(c, selected_movie_title)
-        delete_movie(selected_movie_info, c, conn)
+    # View movie details
+    st.sidebar.write("\n")
+    movie_titles = [movie["title"] for movie in movies_collection.find()]
+    selected_movie_title = st.sidebar.selectbox("Select a movie", movie_titles)
+    selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
+    st.sidebar.write("\n")
+    display_movie_info(selected_movie_info)
+    st.sidebar.write("\n")
+    rate_movie(selected_movie_info)
+    st.sidebar.write("\n")
+    add_comment(selected_movie_info)
 
-    st.sidebar.write("Movie List")
-    # Retrieve the list of movies from the database
-    movies = get_all_movies(c)
-    for movie in movies:
-        st.sidebar.write(movie[0])
-
-    # Close the database connection
-    conn.close()
-
-main()
 
 main()
-
     
