@@ -17,10 +17,10 @@ movies_collection = db["moviesds"]
 
 def display_movie_info(selected_movie_info):
     st.write(f"Title: {selected_movie_info['title']}")
-    st.write(f"Released year: {selected_movie_info['released_year']}")
-    st.write(f"Kind: {selected_movie_info['kind']}")
+    st.write(f"Released year: {selected_movie_info['year']}")
+    st.write(f"genre: {selected_movie_info['genre']}")
     st.write(f"Nationality: {selected_movie_info['nationality']}")
-    st.write(f"Average ranking: {selected_movie_info['average_ranking']:.1f}")
+    st.write(f"average rating: {selected_movie_info['average_rating']:.1f}")
 
 
 def add_comment(selected_movie_info):
