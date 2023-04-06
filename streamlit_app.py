@@ -48,17 +48,13 @@ def rate_movie(selected_movie_info):
         else:
             st.error("Invalid rating. Please choose a rating between 1 and 5.")
 
-def delete_movie(selected_movie_info, movies_collection):
-    if selected_movie_info is not None:
-        title = selected_movie_info["title"]
-        dropdown_options = [title] # Add the movie title to the dropdown options
-        st.write(f"Select '{title}' to delete from the database:")
-        selected_movie_title = st.selectbox("Movies", dropdown_options)
-        if st.button("Delete"):
-            movies_collection.delete_one({"_id": selected_movie_info["_id"]})
-            st.success(f"{selected_movie_title} has been deleted from the database.")
-    else:
-        st.write("No movie selected.")
+def delete_movie():
+    movie_titles = [movie["title"] for movie in movies_collection.find()]
+    movie_to_delete = st.selectbox("Select a movie to delete", movie_titles)
+    if st.button("Delete"):
+        movies_collection.delete_one({"title": movie_to_delete})
+        st.success(f"{movie_to_delete} has been deleted from the database.")
+
 
 def add_new_movie():
     title = st.text_input("Title")
@@ -126,7 +122,7 @@ def main():
     # Delete movie
     elif choice == "Delete Movie":
         st.header("Delete Movie")
-        delete_movie(selected_movie_info, movies_collection)
+        delete_movie()
 
     # View movie details
     st.sidebar.write("\n")
