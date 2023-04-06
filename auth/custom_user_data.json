@@ -1,0 +1,7 @@
+{
+    "enabled": false,
+    "mongo_service_name": "Cluster0",
+    "database_name": "moviesds",
+    "collection_name": "moviesds",
+    "user_id_field": "642dd2a03f0f92358e847e81"
+}

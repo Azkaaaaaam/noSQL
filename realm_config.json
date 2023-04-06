@@ -1,5 +1,8 @@
-realm-cli pull --remote=data-mnfje
-mv data/* . && rm -r data
-git add .
-git commit
-git push origin master
+{
+    "app_id": "data-mnfje",
+    "config_version": 20210101,
+    "name": "data",
+    "location": "US-VA",
+    "provider_region": "aws-us-east-1",
+    "deployment_model": "GLOBAL"
+}
