@@ -1,0 +1,15 @@
+{"_id":{"$oid":"642dc4607d99ed0ce91ba527"},"title":"Avengers: Endgame","genre":"Action","year":{"$numberLong":"2019"},"nationality":"American","average_rating":"4.8","comments":[{"nickname":"marvel_fan","comment":"This movie was amazing!"},{"nickname":"avenger_lover","comment":"Best movie ever!"}]}
+{"_id":{"$oid":"642dc4927d99ed0ce91be9d6"},"title":"The Godfather","genre":"Crime, Drama","year":{"$numberLong":"1972"},"nationality":"American","average_rating":{"$numberDouble":"7.67"},"comments":[{"nickname":"film_fan","comment":"One of the greatest movies of all time!"},{"nickname":"cinema_buff","comment":"The Godfather is a masterpiece."}]}
+{"_id":{"$oid":"642dc4bd7d99ed0ce91c2407"},"title":"The Shawshank Redemption","genre":"Drama","year":{"$numberLong":"1994"},"nationality":"American","average_rating":"4.7","comments":[{"nickname":"movie_lover","comment":"This movie is a classic."},{"nickname":"film_critique","comment":"The Shawshank Redemption is an incredible film."}]}
+
+{"_id":{"$oid":"642dc4ce7d99ed0ce91c3c5b"},"title":"The Dark Knight","genre":"Action, Crime, Drama","year":{"$numberLong":"2008"},"nationality":"American","average_rating":{"$numberDouble":"4.33"},"comments":[{"nickname":"batman_fan","comment":"Heath Ledger's performance was outstanding."},{"nickname":"movie_buff","comment":"The Dark Knight is a masterpiece."}],"ratings":[{"$numberInt":"3"},{"$numberInt":"5"},{"$numberInt":"5"}]}
+
+{"_id":{"$oid":"642dc4df7d99ed0ce91c5395"},"title":"Forrest Gump","genre":"Drama, Romance","year":{"$numberLong":"1994"},"nationality":"American","average_rating":"4.5","comments":[{"nickname":"film_enthusiast","comment":"One of the best movies of all time."},{"nickname":"movie_critique","comment":"Forrest Gump is a cinematic gem."}]}
+
+{"_id":{"$oid":"642dc4ec7d99ed0ce91c681e"},"title":"Pulp Fiction","genre":"Crime, Drama","year":{"$numberLong":"1994"},"nationality":"American","average_rating":"4.5","comments":[{"nickname":"movie_fanatic","comment":"One of Quentin Tarantino's best films."},{"nickname":"cinephile","comment":"Pulp Fiction is a masterpiece."}]}
+
+{"_id":{"$oid":"642dc5007d99ed0ce91c817d"},"title":"The Matrix","genre":"Action, Sci-Fi","year":{"$numberLong":"1999"},"nationality":"American","average_rating":"4.4","comments":[{"nickname":"sci-fi_lover","comment":"The Matrix is a groundbreaking movie."},{"nickname":"movie_enthusiast","comment":"One of the best sci-fi movies ever made."}]}
+
+{"_id":{"$oid":"642dc5327d99ed0ce91cc988"},"title":"Spider-Man: No Way Home","genre":"Action","year":{"$numberLong":"2021"},"nationality":"American","average_rating":"4.5","comments":[{"nickname":"spider_fan","comment":"Best Spider-Man movie yet!"},{"nickname":"marvel_lover","comment":"Another great Marvel movie!"}]}
+
+{"_id":{"$oid":"642dc5487d99ed0ce91cf2ae"},"title":"Forrest Gump","genre":"Drama","year":{"$numberLong":"1994"},"nationality":"American","average_rating":"4.6","comments":[{"nickname":"gump_fan","comment":"One of the most heartwarming movies ever made!"},{"nickname":"movie_lover","comment":"Tom Hanks is amazing in this!"}]}
