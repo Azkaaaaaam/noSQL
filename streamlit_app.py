@@ -107,6 +107,23 @@ def main():
     elif choice == "Delete Movie":
         st.header("Delete Movie")
         delete_movie()
+////////////
+    elif choice == "Rate Movie":
+        st.header("Rate Movie")
+        movie_titles = [movie["title"] for movie in movies_collection.find()]
+        selected_movie_title = st.selectbox("Select a movie", movie_titles)
+        selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
+        st.write(f"Title: {selected_movie_info['title']}")
+        st.write(f"Released year: {selected_movie_info['year']}")
+        st.write(f"genre: {selected_movie_info['genre']}")
+        st.write(f"Nationality: {selected_movie_info['nationality']}")
+        st.write(f"Average rating: {selected_movie_info['average_rating']}")
+        display_comments(selected_movie_info)
+        st.write("\n")
+        rating = st.slider("Rate the movie", min_value=1, max_value=10, step=1)
+        submit_rating = st.button("Submit Rating")
+        if submit_rating:
+            update_rating(selected_movie_info, rating)
 
     # View movie details
     st.sidebar.write("\n")
@@ -114,7 +131,12 @@ def main():
     selected_movie_title = st.sidebar.selectbox("Select a movie", movie_titles)
     selected_movie_info = movies_collection.find_one({"title": selected_movie_title})
     st.sidebar.write("\n")
- 
+    display_movie_info(selected_movie_info)
+    st.sidebar.write("\n")
+    rate_movie(selected_movie_info)
+    st.sidebar.write("\n")
+    add_comment(selected_movie_info)
+
 
 
 main()
