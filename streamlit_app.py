@@ -107,7 +107,6 @@ def main():
     elif choice == "Delete Movie":
         st.header("Delete Movie")
         delete_movie()
-////////////
     elif choice == "Rate Movie":
         st.header("Rate Movie")
         movie_titles = [movie["title"] for movie in movies_collection.find()]
