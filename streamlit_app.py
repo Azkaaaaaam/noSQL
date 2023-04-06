@@ -16,6 +16,7 @@ db = client["moviesds"]
 movies_collection = db["moviesds"]
 
 def display_movie_info(selected_movie_info):
+    st.header("Movie Info:")
     if selected_movie_info is not None:
         data = {
             "Title": [selected_movie_info['title']],
@@ -73,14 +74,18 @@ def add_new_movie():
         st.success(f"{title} has been added to the database.")
 
 
-
-
 def display_comments(selected_movie_info):
-    st.write("Comments:")
+    st.header("Comments:")
     comments = selected_movie_info.get("comments", [])
+    data = []
     for comment in comments:
         if "nickname" in comment and "comment" in comment:
-            st.write(f"{comment['nickname']}: {comment['comment']}")
+            data.append([comment['nickname'], comment['comment']])
+    if data:
+        st.table(data)
+    else:
+        st.write("No comments yet.")
+
 
 
 def main():
